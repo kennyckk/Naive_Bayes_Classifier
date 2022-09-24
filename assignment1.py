@@ -9,7 +9,7 @@ def loadData():
     # to split the data set into train and test
     N, D = X.shape
     Ntrain = int(N * 0.8)
-    np.random.seed(12)
+    np.random.seed(14)
     shuffle = np.random.permutation(N)  # shuffle is a list of randomized integer range from 0 to N
     xtrain = X[shuffle[:Ntrain]]
     ytrain = y[shuffle[:Ntrain]]
@@ -48,6 +48,7 @@ class NBC:
                         self.feature_types):  # loop for each feat and get their correpsonding mean & std
                     feat_mean = np.mean(x_per_class[:, feat_num])
                     feat_std = np.std(x_per_class[:, feat_num])
+                    feat_std = np.where(feat_std == 0, 1e-6, feat_std) #to make sure std is not zero, else equal 1e-6
                     self.feat_mean_n_std_per_class[c].append((feat_mean, feat_std)) #mean& std stored in dict declared in class
 
         # update self.prior with prior distribution (πc.) per class
